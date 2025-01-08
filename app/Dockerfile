@@ -17,4 +17,4 @@ RUN apt-get update && \
 ENTRYPOINT ["python3"]
 
 # Run a command to start the application
-CMD ["python3", "app.py","runserver", "0.0.0.0:8000"]
+CMD ["python3", "main.py","runserver", "0.0.0.0:8000"]
