@@ -1,22 +1,28 @@
-# Start with the official Ubuntu base image
-FROM ubuntu:latest
+# Use Ubuntu as the base image
+FROM ubuntu:20.04
+
+# Set environment variables to prevent interactive prompts during apt-get installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Update the package list and install dependencies (Python, pip, etc.)
+RUN apt-get update && \
+    apt-get install -y python3 python3-pip python3-dev build-essential && \
+    apt-get clean
 
 # Set the working directory inside the container
-WORKDIR /fastapp
+WORKDIR /app
 
-# Copy the requirements.txt into the container's /fastapp directory
-COPY requirements.txt /fastapp/requirements.txt
+# Copy the requirements.txt to the working directory
+COPY requirements.txt .
 
-# Copy the app directory (including all its contents) into /fastapp/app in the container
-COPY app /fastapp/app
+# Install the Python dependencies from requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-# Install necessary dependencies (Python 3 and pip)
-RUN apt-get update && \
-    apt-get install -y python3 python3-pip && \
-    pip3 install -r /fastapp/requirements.txt
+# Copy the FastAPI application code to the container
+COPY . .
 
-# Set the ENTRYPOINT to use python3 as the executable
-ENTRYPOINT ["python3"]
+# Expose the port that FastAPI will run on
+EXPOSE 8000
 
-# Define the default command that will be executed (run the app's main.py)
-CMD ["app/main.py", "runserver", "0.0.0.0:8000"]
+# Set the default command to run the FastAPI app with Uvicorn
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
