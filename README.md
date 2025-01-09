@@ -238,10 +238,11 @@ Destroying the first-container:
 
 Once the application runs successfully, make sure to destroy containers and recreate another one and check if previous data is still present.
 
-Command to create the Docker sencond-Container shows in above image:
+Command to create the Docker sencond-Container shows in below image:
 
      docker run -itd -p 8000:8000 --name second-container --mount type=bind,source=/varlib/docker/volumes/api_data,target=/app/app/data Gopiraju-S/fast-api-image
      
+![Untitled](Images/18.png)
 
 check if previous data is still present.
 
