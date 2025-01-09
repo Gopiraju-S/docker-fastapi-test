@@ -74,7 +74,7 @@ Again do sample docker run command:
           # This message shows that your installation appears to be working correctly.
            -----
 
-
+![Untitled](Images/88.png)
 ### 3. install Git on an Amazon-linux2 system, follow these steps:
 Update the Package Index
 1. First, ensure your package index is up-to-date:
