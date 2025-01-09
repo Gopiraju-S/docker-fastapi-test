@@ -76,7 +76,7 @@ Again do sample docker run command:
 
 ![Untitled](Images/88.png)
 ### 3. install Git on an Amazon-linux2 system, follow these steps:
-Update the Package Index
+#### 1. Update the Package Index
 1. First, ensure your package index is up-to-date:
    
        sudo apt update
@@ -91,15 +91,15 @@ Check the installed version of Git to verify the installation:
 
        git --version
 
-Now, do the clone as mentioned abelow steps.
+#### 2. Now, do the clone as mentioned abelow steps.
 
-3. Prepare the FastApi Application:
+1. Prepare the FastApi Application:
    
-Clone the Repository:
+2. Clone the Repository:
 
        git clone https://github.com/Gopiraju-S/docker-fastapi-test.git
 
-Change the directory to the fastapi applicaton:
+3. Change the directory to the fastapi applicaton:
 
        cd docker-fastapi-test
 
@@ -120,14 +120,15 @@ Login with your Docker ID to push and pull images from Docker Hub. If you don't 
 
 ![Untitled](Images/5.png)
 
-### 5. Create the DOckerfile.yml
+### 5. Create the Dockerfile.yml
 
-Here, Dockerfile already created in my Github repocitory:
-And we can create the new Dockerfile in a aplication level folder.
+Here, Dockerfile already created in my Github repocitory
+
+And also, we can create the new Dockerfile in a aplication level folder.
 
     sudo nano Dockerfile
 
-Enter the docker text.
+Enter the dockerfile text.
 
     # Use Ubuntu as the base image
     FROM ubuntu:20.04
@@ -162,11 +163,11 @@ Enter the docker text.
 
 ### 5. Create Docker FastApi Aplication Image:
 
-Check for existed list of images:
+5.1. Check for existed list of images:
 
      docker images
 
-Command to Create the Docker Image:
+5.2. Command to Create the Docker Image:
 
      docker build -t Gopiraju-S/fast-api-image .
 
@@ -174,14 +175,14 @@ Command to Create the Docker Image:
  
 ![Untitled](Images/6.png)
 
-Command to create the Docker Container:
+### 6. Command to create the Docker first-Container:
 
      docker run -itd -p 8000:8000 --name first-container --mount type=bind,source=/varlib/docker/volumes/api_data,target=/app/app/data Gopiraju-S/fast-api-image
      
 
 ![Untitled](Images/8.png)  
 
-Command to Get the data from first-Container server
+6.1. Command to Get the data from first-Container server
 
      # It  shows 'Hello from Fastapi'
      curl http://localhost:8000
@@ -198,7 +199,7 @@ Web-server output:
 
 ![Untitled](Images/9.2.png)
 
-Post the data to first-container server by using the **curl**:
+6.2. Post the data to first-container server by using the **curl**:
 
      # first record 
      curl -X POST -H "COntent-Type: application/json" -d '{"first_name": "Gopiraju", "last_name": "Sankurathri", "age": 23}' http://localhost:8000/users
@@ -208,9 +209,9 @@ Post the data to first-container server by using the **curl**:
 
 ![Untitled](Images/10.png)
 
-Check the data stored in a first-container Server:
+6.3. Check the data stored in a first-container Server:
 
-Command to Get the data from first-Container server
+6.4. Command to Get the data from first-Container server
 
      # It  shows 'Hello from Fastapi'
      curl http://localhost:8000
@@ -226,7 +227,7 @@ Command to Get the data from first-Container server
 
 ![Untitled](Images/11.png)
 
-Destroying the first-container:
+6.5. Destroying the first-container:
 
      # stop the container
      docker stop first-container
@@ -236,15 +237,17 @@ Destroying the first-container:
      
 ![Untitled](Images/12.png)
 
-Once the application runs successfully, make sure to destroy containers and recreate another one and check if previous data is still present.
 
-Command to create the Docker sencond-Container shows in below image:
+
+**Note: Once the application runs successfully, make sure to destroy containers and recreate another one and check if previous data is still present.
+**
+### 7. Command to create the Docker sencond-Container shows in below image:
 
      docker run -itd -p 8000:8000 --name second-container --mount type=bind,source=/varlib/docker/volumes/api_data,target=/app/app/data Gopiraju-S/fast-api-image
      
 ![Untitled](Images/18.png)
 
-check if previous data is still present.
+7.1. check if previous data is still present.
 
 Command to Get the data from second-Container server
 
