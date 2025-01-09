@@ -60,16 +60,16 @@ but, Output we axcpected as **permission denaied**:
  
 ##### B. Provide a Docker privilidges 
  So this we need to provide the admin priviledges to run the docker commands.
-     - # Create the docker group
-     - sudo groupadd docker
+      # Create the docker group
+      sudo groupadd docker
 
-     - # Add the ec2-user to docker
-     - sudo usermod -aG docker ec2-user
+      # Add the ec2-user to docker
+      sudo usermod -aG docker ec2-user
      
 Again do sample docker run command:
 
-      - docker run hello-world
-      - #output: ----
+       docker run hello-world
+       #output: ----
           # Hello from Docker!
           # This message shows that your installation appears to be working correctly.
            -----
@@ -94,13 +94,14 @@ Check the installed version of Git to verify the installation:
 Now, do the clone as mentioned abelow steps.
 
 3. Prepare the FastApi Application:
+   
 Clone the Repository:
 
        git clone https://github.com/Gopiraju-S/docker-fastapi-test.git
 
 Change the directory to the fastapi applicaton:
 
-        cd docker-fastapi-test
+       cd docker-fastapi-test
 
 ![Untitled](Images/4.png)
 
@@ -122,16 +123,44 @@ Login with your Docker ID to push and pull images from Docker Hub. If you don't 
 ### 5. Create the DOckerfile.yml
 
 Here, Dockerfile already created in my Github repocitory:
-And we can create the Dockerfile in aplication level folder.
+And we can create the new Dockerfile in a aplication level folder.
 
     sudo nano Dockerfile
 
 Enter the docker text.
-    
+
+    # Use Ubuntu as the base image
+    FROM ubuntu:20.04
+
+    # Set environment variables to prevent interactive prompts during apt-get installation
+    ENV DEBIAN_FRONTEND=noninteractive
+
+    # Update the package list and install dependencies (Python, pip, etc.)
+    RUN apt-get update && \
+    apt-get install -y python3 python3-pip python3-dev build-essential && \
+    apt-get clean
+
+    # Set the working directory inside the container
+    WORKDIR /app
+
+    # Copy the requirements.txt to the working directory
+    COPY requirements.txt .
+
+    # Install the Python dependencies from requirements.txt
+    RUN pip3 install --no-cache-dir -r requirements.txt
+
+    # Copy the FastAPI application code to the container
+    COPY . .
+
+    # Expose the port that FastAPI will run on
+    EXPOSE 8000
+
+    # Set the default command to run the FastAPI app with Uvicorn
+    CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 
 
-### 5. Create Docker FastApi Image:
+### 5. Create Docker FastApi Aplication Image:
 
 Check for existed list of images:
 
@@ -145,4 +174,93 @@ Command to Create the Docker Image:
  
 ![Untitled](Images/6.png)
 
+Command to create the Docker Container:
+
+     docker run -itd -p 8000:8000 --name first-container --mount type=bind,source=/varlib/docker/volumes/api_data,target=/app/app/data Gopiraju-S/fast-api-image
      
+
+![Untitled](Images/8.png)  
+
+Command to Get the data from first-Container server
+
+     # It  shows 'Hello from Fastapi'
+     curl http://localhost:8000
+
+     # It shows empty data []
+     curl http://localhost:8000/users
+
+Console Output:
+
+![Untitled](Images/9.png)
+
+Web-server output:
+![Untitled](Images/9.1.png)
+
+![Untitled](Images/9.2.png)
+
+Post the data to first-container server by using the **curl**:
+
+     # first record 
+     curl -X POST -H "COntent-Type: application/json" -d '{"first_name": "Gopiraju", "last_name": "Sankurathri", "age": 23}' http://localhost:8000/users
+
+     # Secon record
+     curl -X POST -H "COntent-Type: application/json" -d '{"first_name": "Ravi", "last_name": "Tota", "age": 23}' http://localhost:8000/users
+
+![Untitled](Images/10.png)
+
+Check the data stored in a first-container Server:
+
+Command to Get the data from first-Container server
+
+     # It  shows 'Hello from Fastapi'
+     curl http://localhost:8000
+
+     # It shows data stored in a /users.json
+     curl http://localhost:8000/users
+
+     # Search in a Web-Server
+
+     http://public_ip:8000
+     http://public_ip:8000/users
+
+
+![Untitled](Images/11.png)
+
+Destroying the first-container:
+
+     # stop the container
+     docker stop first-container
+
+     # Delete the container 
+     docker rm first-container
+     
+![Untitled](Images/12.png)
+
+Once the application runs successfully, make sure to destroy containers and recreate another one and check if previous data is still present.
+
+Command to create the Docker sencond-Container shows in above image:
+
+     docker run -itd -p 8000:8000 --name second-container --mount type=bind,source=/varlib/docker/volumes/api_data,target=/app/app/data Gopiraju-S/fast-api-image
+     
+
+check if previous data is still present.
+
+Command to Get the data from second-Container server
+
+     # It  shows 'Hello from Fastapi'
+     curl http://localhost:8000
+
+     # It shows data stored in a /users.json
+     curl http://localhost:8000/users
+
+     # Search in a Web-Server
+     
+     http://public_ip:8000
+     http://public_ip:8000/users
+
+![Untitled](Images/13.png)
+     
+![Untitled](Images/11.png)
+
+
+
