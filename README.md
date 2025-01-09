@@ -91,16 +91,58 @@ Check the installed version of Git to verify the installation:
 
        git --version
 
-Now, do the clone as mentioned above.
+Now, do the clone as mentioned abelow steps.
 
-3. Prepare the Flask Application:
-   Clone the Repository:
-       git clone https://github.com/saiguda654/2-tier-flask-app.git 
-       cd 2-tier-flask-app
+3. Prepare the FastApi Application:
+Clone the Repository:
 
+       git clone https://github.com/Gopiraju-S/docker-fastapi-test.git
+
+Change the directory to the fastapi applicaton:
+
+        cd docker-fastapi-test
 
 ![Untitled](Images/4.png)
 
+### 4. Login to Docker [Create an account with https://hub.docker.com/]
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+      docker login
+      
+      Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+      Username: gopiraju06
+      Password:
+      WARNING! Your password will be stored unencrypted in /home/ubuntu/.docker/config.json.
+      Configure a credential helper to remove this warning. See
+      https://docs.docker.com/engine/reference/commandline/login/#credentials-store
 
+      Login Succeeded
+
+![Untitled](Images/5.png)
+
+### 5. Create the DOckerfile.yml
+
+Here, Dockerfile already created in my Github repocitory:
+And we can create the Dockerfile in aplication level folder.
+
+    sudo nano Dockerfile
+
+Enter the docker text.
+    
+
+
+
+### 5. Create Docker FastApi Image:
+
+Check for existed list of images:
+
+     docker images
+
+Command to Create the Docker Image:
+
+     docker build -t Gopiraju-S/fast-api-image .
+
+     docker images
  
-  
+![Untitled](Images/6.png)
+
+     
